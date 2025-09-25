@@ -9,13 +9,10 @@ spring:
     console:
       enabled: true
       path: "/h2"
-  profiles:
-    active: testing
-    include: null
 entrypoint:
   sqs:
-    region: "us-east-2"
-    queueUrl: "https://sqs.us-east-2.amazonaws.com/617669911828/cola-solicitud-aprobada"
+    region: "${SQS_REGION}"
+    queueUrl: "${SQS_COLA_SOLICITUD_APROBADA}"
     waitTimeSeconds: 5
     maxNumberOfMessages: 10
     visibilityTimeoutSeconds: 10
@@ -30,9 +27,9 @@ management:
       probes:
         enabled: true
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
+  allowed-origins: "http://localhost:4200,http://localhost:8080,http://localhost:8081,http://localhost:8082"
 aws:
-  region: "us-east-2"
+  region: "${AWS_REGION}"
   dynamodb:
     tables:
-      reportes: "reportes"
+      reportes: "${DYNAMODB_TABLE_REPORTES}"
