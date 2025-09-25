@@ -37,7 +37,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "swagger-ui/**"
                         ).permitAll()
-                        .pathMatchers(HttpMethod.PUT,"/api/v1/reportes/**").hasAnyRole("ADMINISTRADOR")
+                        .pathMatchers(HttpMethod.GET,"/api/v1/reportes").hasAnyRole("ADMINISTRADOR")
                         .anyExchange().authenticated()
                 )
                 .exceptionHandling(ex ->

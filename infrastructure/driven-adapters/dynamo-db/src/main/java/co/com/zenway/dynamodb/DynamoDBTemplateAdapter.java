@@ -6,6 +6,7 @@ import co.com.zenway.model.reporte.gateways.ReporteRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
@@ -49,7 +50,12 @@ public class DynamoDBTemplateAdapter
 
 
     @Override
+    public Flux<Reporte> getAll() {
+        return super.scanAll();
+    }
+
+    @Override
     public Mono<Reporte> getByIdNumber(Long idSolicitud) {
-        return super.getById(idSolicitud);
+        return super.getByIdNumber(idSolicitud);
     }
 }

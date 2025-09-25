@@ -36,3 +36,7 @@ aws:
   dynamodb:
     tables:
       reportes: "reportes"
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG

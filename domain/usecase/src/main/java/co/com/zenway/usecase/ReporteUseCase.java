@@ -22,5 +22,17 @@ public class ReporteUseCase {
                 });
     }
 
+    public Mono<Long> obtenerTotalSolicitudesAprobadas() {
+        return repository.getAll()
+                .map(Reporte::getSolicitudesAprobadas)
+                .reduce(0L, Long::sum);
+    }
+
+    public Mono<BigDecimal> obtenerTotalMonto() {
+        return repository.getAll()
+                .map(Reporte::getMonto)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 
 }

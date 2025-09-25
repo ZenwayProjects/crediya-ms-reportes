@@ -14,7 +14,18 @@ public class ReporteEntity {
     private BigDecimal monto;
     private Long solicitudesAprobadas;
 
+    public ReporteEntity() {
+    }
+
+    public ReporteEntity(Long idSolicitud, String fechaAprobacion, BigDecimal monto, Long solicitudesAprobadas) {
+        this.idSolicitud = idSolicitud;
+        this.fechaAprobacion = fechaAprobacion;
+        this.monto = monto;
+        this.solicitudesAprobadas = solicitudesAprobadas;
+    }
+
     @DynamoDbPartitionKey
+    @DynamoDbAttribute("id_solicitud")
     public Long getIdSolicitud() {
         return idSolicitud;
     }

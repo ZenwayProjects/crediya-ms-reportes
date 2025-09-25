@@ -1,6 +1,7 @@
 package co.com.zenway.dynamodb.helper;
 
 import org.reactivecommons.utils.ObjectMapper;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.core.async.SdkPublisher;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbAsyncIndex;
@@ -49,6 +50,17 @@ public abstract class TemplateAdapterOperations<E, K, V> {
                 .map(this::toModel);
     }
 
+    public Mono<E> getByIdNumber(Long id) {
+        AttributeValue attrValue = AttributeValue.builder()
+                .n(String.valueOf(id))
+                .build();
+
+        return Mono.fromFuture(table.getItem(Key.builder()
+                        .partitionValue(attrValue)
+                        .build()))
+                .map(this::toModel);
+    }
+
     public Mono<E> delete(E model) {
         return Mono.fromFuture(table.deleteItem(toEntity(model))).map(this::toModel);
     }
@@ -81,6 +93,12 @@ public abstract class TemplateAdapterOperations<E, K, V> {
     private Mono<List<E>> listOfModel(PagePublisher<V> pagePublisher) {
         return Mono.from(pagePublisher).map(page -> page.items().stream().map(this::toModel).toList());
     }
+    public Flux<E> scanAll() {
+        return Flux.from(table.scan())
+                .flatMapIterable(Page::items)
+                .map(this::toModel);
+    }
+
 
     private Mono<List<E>> listOfModel(SdkPublisher<Page<V>> pagePublisher) {
         return Mono.from(pagePublisher).map(page -> page.items().stream().map(this::toModel).toList());
